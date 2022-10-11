@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const db = require('./config/connection');
 const routes = require('./routes');
+require('dotenv').config();
 
 const app = express();
 app.use(helmet());
@@ -16,6 +17,7 @@ app.use(routes);
 
 db.once('open', () => {
     app.listen(PORT, () => {
-        console.log('API server running on port 3001')
+        console.log('API server running on port ', PORT)
+        console.log(db)
     })
 })
