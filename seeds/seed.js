@@ -1,6 +1,8 @@
 const connection = require('../config/connection');
 const {Thought, User} = require('../models');
 
+connection.once('open', async () => {
+
 const thoughts = [
   {
     thoughtText: "This is the first thought. Programming is fun!",
@@ -55,7 +57,6 @@ const users = [
     }
 ];
 
-connection.once('open', async () => {
   console.log('connected');
 
   // Delte existing users, if any
@@ -69,14 +70,9 @@ connection.once('open', async () => {
 
     // Seed users
     const userData = await User.collection.insertMany(users);
-
-    if (!userData) {
-      console.error("User data failed", userData);
-    }
   
     console.log("Users: ==============>", userData);
   
-
-  console.table(users[0].thoughts);
+  console.table(userData);
 })
 
