@@ -19,6 +19,32 @@ router.post('/', (req,res) => {
     User.create(req.body)
     .then((userData) => res.json(userData))
     .catch((err) => res.status(500).json(err))
-})
+});
+
+router.put('/:id', (req,res) => {
+    const filter = { _id: req.params.id};
+    const update = req.body;
+    User.findOneAndUpdate(filter, update)
+    .then((userData) => res.status(200).json(userData))
+    .catch((err) => res.status(500).json(err));
+});
+
+router.delete('/:id', (req,res) => {
+    const filter = {_id: req.params.id};
+    User.findOneAndDelete(filter)
+    .then((data) => res.status(200).json(data))
+    .catch((err) => res.status(500).json(err));
+});
+
+router.post('/:id', (req,res) => {
+    Thought.findOne( {where: {_id: req.params.id}})
+    .then((data) => {
+        console.log(data)
+        data.reactions.unshift(req.body);
+        data.save();
+        res.status(200).json(data);
+    })
+    .catch((err) => res.status(500).json(err));
+});
 
 module.exports = router;

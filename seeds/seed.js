@@ -66,13 +66,20 @@ const users = [
   await Thought.deleteMany({});
   
   // Seed thoughts 
-  await Thought.collection.insertMany(thoughts);
+   const thoughtData = await Thought.collection.insertMany(thoughts);
 
     // Seed users
     const userData = await User.collection.insertMany(users);
-  
-    console.log("Users: ==============>", userData);
-  
-  console.table(userData);
+
+    console.log(userData);
+    console.log(thoughtData);
+
+    if (userData && thoughtData) {
+      process.exit(0);
+    }
+    else {
+      process.exit(1);
+    }
+    
 })
 
