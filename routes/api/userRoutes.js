@@ -36,11 +36,11 @@ router.delete('/:id', (req,res) => {
     .catch((err) => res.status(500).json(err));
 });
 
-router.post('/:id', (req,res) => {
-    Thought.findOne( {where: {_id: req.params.id}})
+router.post('/:userId/friends/:friendId', (req,res) => {
+    User.findOne( {where: {_id: req.params.userId}})
     .then((data) => {
-        console.log(data)
-        data.reactions.unshift(req.body);
+        // console.log(data.friends)
+        data.friends.unshift({_id: req.params.friendId});
         data.save();
         res.status(200).json(data);
     })
